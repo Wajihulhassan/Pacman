@@ -1,0 +1,41 @@
+# depslib dependency file v1.0
+1396732914 source:c:\users\wajih\desktop\assignment1\mypacman\main.cpp
+	<iostream>
+	<curses.h>
+	<cstdlib>
+	<fstream>
+	<string.h>
+	<time.h>
+	<unistd.h>
+	"pacman.h"
+	"Ghost.h"
+	"Maze.h"
+
+1396733213 c:\users\wajih\desktop\assignment1\mypacman\include\pacman.h
+	"Character.h"
+	"curses.h"
+	"Maze.h"
+	"iostream"
+
+1396732552 c:\users\wajih\desktop\assignment1\mypacman\include\character.h
+
+1396684048 c:\users\wajih\desktop\assignment1\mypacman\include\maze.h
+	"curses.h"
+
+1396735067 c:\users\wajih\desktop\assignment1\mypacman\include\ghost.h
+	"Character.h"
+	"curses.h"
+	<cstdlib>
+
+1396402727 source:c:\users\wajih\desktop\assignment1\mypacman\src\character.cpp
+	"Character.h"
+
+1396735076 source:c:\users\wajih\desktop\assignment1\mypacman\src\ghost.cpp
+	"Ghost.h"
+
+1396683856 source:c:\users\wajih\desktop\assignment1\mypacman\src\maze.cpp
+	"Maze.h"
+
+1396735122 source:c:\users\wajih\desktop\assignment1\mypacman\src\pacman.cpp
+	"Pacman.h"
+
