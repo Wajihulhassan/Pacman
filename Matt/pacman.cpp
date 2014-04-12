@@ -1,4 +1,5 @@
 #include "pacman.h"
+#include "edible.h"
 
 Pacman::Pacman(int a, int b, char c[][80]):x(a), y(b)
 {
@@ -226,7 +227,11 @@ bool Pacman::collision(){
 	 	 score=score+10;
 	}
 	if(maze[y][x]== '%'){
-	 	//colorSwitch();
+
+        eat nomNom;
+
+        nomNom.safeToEat();
+
 		maze[y][x]= ' ';
 	}
 	if(maze[yy][xx]== '%'){
