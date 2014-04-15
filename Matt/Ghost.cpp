@@ -1,9 +1,12 @@
+#include <time.h>
 #include "Ghost.h"
 
-Ghost::Ghost(int a, int b, char c, int d,char m[][80]): y(a), x(b)
+Ghost::Ghost(int a, int b, char c, int d, int blueGhost, int whiteGhost, char m[][80]): y(a), x(b)
 {
     dir  = c;
     icon = d;
+    newGhost = blueGhost;
+    cautionGhost = whiteGhost;
     mvaddch(a,b,icon);
     for(int i =0 ;i < 30 ; i++){
         for(int k=0;k<80;k++){
@@ -12,15 +15,33 @@ Ghost::Ghost(int a, int b, char c, int d,char m[][80]): y(a), x(b)
     }
     chkfood= false;
 }
-void Ghost::moveG(){
+void Ghost::moveG(bool bonus, bool bonusEnding ){
     if (dir=='R'){
 	    if(!collisionM()){
 	      	mvaddch(y,x,' ');
 	     	foodPutter(y,x);
 	      	++x;
-	      	//attron(COLOR_PAIR(colorswitch));
-	      	mvaddch(y,x,icon);
-	       	//attroff(COLOR_PAIR(colorswitch));
+
+		 	 if(bonus)
+                {
+
+                mvaddch( y, x, newGhost );
+
+                }// if(bonus)
+
+            else if(bonusEnding)
+                {
+
+                mvaddch( y, x, cautionGhost );
+
+                }// else if(bonusEnding)
+
+             else
+                {
+
+                mvaddch( y, x, icon );
+
+                }// else of if(bonus)
 		}
 	  refresh();
 	  }
@@ -30,9 +51,27 @@ void Ghost::moveG(){
 			mvaddch(y,x,' ');
 			foodPutter(y,x);
 			--x;
-			//attron(COLOR_PAIR(colorswitch));
-			mvaddch(y,x,icon);
-			//attroff(COLOR_PAIR(colorswitch));
+
+		 	 if(bonus)
+                {
+
+              mvaddch( y, x, newGhost );
+
+                }// if(bonus)
+
+             else if(bonusEnding)
+                {
+
+                mvaddch( y, x, cautionGhost );
+
+                }// else if(bonusEnding)
+
+             else
+                {
+
+             mvaddch( y, x,icon );
+
+                }// else of if(bonus)
 		}
 		refresh();
 	 }
@@ -42,9 +81,27 @@ void Ghost::moveG(){
 		  	mvaddch(y,x,' ');
             foodPutter(y,x);
 		  	--y;
-		  	//attron(COLOR_PAIR(colorswitch));
-		  	mvaddch(y,x,icon);
-		  	//attroff(COLOR_PAIR(colorswitch));
+
+		 	 if(bonus)
+                {
+
+                mvaddch( y, x, newGhost );
+
+                }// if(bonus)
+
+             else if(bonusEnding)
+                {
+
+                mvaddch( y, x, cautionGhost );
+
+                }// else if(bonusEnding)
+
+             else
+                {
+
+                mvaddch( y, x, icon );
+
+                }// else of if(bonus)
 		    }
 	      refresh();
 	    }
@@ -55,7 +112,28 @@ void Ghost::moveG(){
             foodPutter(y,x);
 		 	 ++y;
 		 	 //attron(COLOR_PAIR(colorswitch));
-		 	 mvaddch(y,x,icon);
+
+		 	 if(bonus)
+                {
+
+             mvaddch( y, x, newGhost );
+
+                }// if(bonus)
+
+             else if(bonusEnding)
+                {
+
+                mvaddch( y, x, cautionGhost );
+
+                }// else if(bonusEnding)
+
+             else
+                {
+
+             mvaddch( y, x, icon );
+
+                }// else of if(bonus)
+
 		 	 //attroff(COLOR_PAIR(colorswitch));
 		 	 }
 	      refresh();

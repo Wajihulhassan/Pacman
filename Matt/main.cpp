@@ -8,6 +8,7 @@
 #include "pacman.h"
 #include "Ghost.h"
 #include "Maze.h"
+//#include "edible.h"
 using namespace std;
 
 
@@ -25,16 +26,16 @@ int main()
     maze->showMaze();
     Pacman* pac = new Pacman(20,20,maze->maze1);
     pac->moveShow(36,13,'O');
-    Ghost* ghost1 = new Ghost(2,50,'R','@' | COLOR_PAIR(2),maze->maze1);
-    Ghost* ghost2 = new Ghost(22,15,'L','@' | COLOR_PAIR(4),maze->maze1);
-    Ghost* ghost3 = new Ghost(3,15,'U','@' | COLOR_PAIR(9),maze->maze1);
-    Ghost* ghost4 = new Ghost(22,50,'D','@' | COLOR_PAIR(1),maze->maze1);
+    Ghost* ghost1 = new Ghost(9,36,'R','@' | COLOR_PAIR(2), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), maze->maze1);
+    Ghost* ghost2 = new Ghost(11,35,'U','@' | COLOR_PAIR(4), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), maze->maze1);
+    Ghost* ghost3 = new Ghost(11,36,'U','@' | COLOR_PAIR(9), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), maze->maze1);
+    Ghost* ghost4 = new Ghost(11,37,'U','@' | COLOR_PAIR(1), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), maze->maze1);
     while (Playing){
         Playing= pac->movep();
-        ghost1->moveG();
-        ghost2->moveG();
-        ghost3->moveG();
-        ghost4->moveG();
+        ghost1->moveG(pac -> bonus, pac -> bonusEnding );
+        ghost2->moveG(pac -> bonus, pac -> bonusEnding );
+        ghost3->moveG(pac -> bonus, pac -> bonusEnding );
+        ghost4->moveG(pac -> bonus, pac -> bonusEnding );
     }
     return 0;
 }

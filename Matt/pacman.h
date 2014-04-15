@@ -19,8 +19,11 @@ class Pacman :public Character
         int repeater;
         char maze[30][80];
         bool alive;
+        bool bonus;
+        bool bonusEnding;
         int x;
         int y;
+        time_t current, timer, flickerTimer;
     protected:
     private:
 };

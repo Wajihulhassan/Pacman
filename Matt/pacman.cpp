@@ -1,5 +1,6 @@
+#include <time.h>
 #include "pacman.h"
-#include "edible.h"
+
 
 Pacman::Pacman(int a, int b, char c[][80]):x(a), y(b)
 {
@@ -9,6 +10,15 @@ Pacman::Pacman(int a, int b, char c[][80]):x(a), y(b)
         }
     }
     alive = true;
+
+    bonus = false;
+
+    bonusEnding = false;
+
+    current = 0;
+
+    flickerTimer = 0;
+
 }
 void Pacman::moveShow(int a, int b, char c){
 
@@ -24,6 +34,40 @@ bool Pacman::movep(){
      // initialization of character
     wtimeout(stdscr,170);
     move(1,31);
+
+    if( time(NULL) >= timer )
+        {
+
+        bonus = false;
+
+        bonusEnding = false;
+
+        current = 0;
+
+        flickerTimer = 0;
+
+        }// if( time(NULL) >= timer )
+
+    if( flickerTimer != 0 && time(NULL) >= flickerTimer )
+        {
+
+
+        if( time(NULL) % 2 == 1 )
+            {
+
+            bonusEnding = true;
+
+            }// if( time(NULL) % 2 == 0 )
+
+        else
+            {
+
+            bonusEnding = false;
+
+            }// else of if( time(NULL) % 2 == 0 )
+
+        }// if( time(NULL) >= flickerTimer )
+
     // score displaying
     attron(A_REVERSE|COLOR_PAIR(1));
     printw(" SCORE = %d ",score);
@@ -228,9 +272,14 @@ bool Pacman::collision(){
 	}
 	if(maze[y][x]== '%'){
 
-        eat nomNom;
 
-        nomNom.safeToEat();
+        bonus = true;
+
+        time(&current);
+
+        timer = current + 20;
+
+        flickerTimer = current + 10;
 
 		maze[y][x]= ' ';
 	}
@@ -254,7 +303,7 @@ bool Pacman::collision(){
     // checking collision with food and incrementing score
       if (maze[y][x]=='*'){
 			score++;
-	    if (score==80){
+	    if (score==466){
 	    	  //winner=true;
 	      	return false;
 	    }
