@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1397746985 source:c:\users\brandon\c++brandon\sokubon\main.cpp
+	<iostream>
+	<curses.h>
+	<vector>
+	<ctime>
+
