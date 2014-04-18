@@ -1,18 +1,22 @@
 #include <time.h>
 #include "Ghost.h"
 
-Ghost::Ghost(int a, int b, char c, int d, int blueGhost, int whiteGhost, char m[][80]): y(a), x(b)
+Ghost::Ghost(int a, int b, char c, int d, int blueGhost, int whiteGhost,int ghostConsumed, char m[][80]): y(a), x(b)
 {
     dir  = c;
     icon = d;
     newGhost = blueGhost;
     cautionGhost = whiteGhost;
+    eyesOfGhosts = ghostConsumed;
     mvaddch(a,b,icon);
     for(int i =0 ;i < 30 ; i++){
         for(int k=0;k<80;k++){
             maze[i][k]= m[i][k];
         }
     }
+
+    ghostEaten = false;
+
     chkfood= false;
 }
 void Ghost::moveG(bool bonus, bool bonusEnding ){
@@ -22,10 +26,13 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 	     	foodPutter(y,x);
 	      	++x;
 
+             // The if, else if, and else determine the color of the ghosts.
 		 	 if(bonus)
                 {
 
                 mvaddch( y, x, newGhost );
+
+                ghostEaten = true;
 
                 }// if(bonus)
 
@@ -34,6 +41,8 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 
                 mvaddch( y, x, cautionGhost );
 
+                ghostEaten = true;
+
                 }// else if(bonusEnding)
 
              else
@@ -41,7 +50,10 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 
                 mvaddch( y, x, icon );
 
+                ghostEaten = false;
+
                 }// else of if(bonus)
+
 		}
 	  refresh();
 	  }
@@ -55,7 +67,9 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 		 	 if(bonus)
                 {
 
-              mvaddch( y, x, newGhost );
+                mvaddch( y, x, newGhost );
+
+                ghostEaten = true;
 
                 }// if(bonus)
 
@@ -64,14 +78,19 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 
                 mvaddch( y, x, cautionGhost );
 
+                ghostEaten = true;
+
                 }// else if(bonusEnding)
 
              else
                 {
 
-             mvaddch( y, x,icon );
+                mvaddch( y, x,icon );
+
+                ghostEaten = false;
 
                 }// else of if(bonus)
+
 		}
 		refresh();
 	 }
@@ -87,12 +106,16 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 
                 mvaddch( y, x, newGhost );
 
+                ghostEaten = true;
+
                 }// if(bonus)
 
              else if(bonusEnding)
                 {
 
                 mvaddch( y, x, cautionGhost );
+
+                ghostEaten = true;
 
                 }// else if(bonusEnding)
 
@@ -101,7 +124,10 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 
                 mvaddch( y, x, icon );
 
+                ghostEaten = false;
+
                 }// else of if(bonus)
+
 		    }
 	      refresh();
 	    }
@@ -116,7 +142,9 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 		 	 if(bonus)
                 {
 
-             mvaddch( y, x, newGhost );
+                mvaddch( y, x, newGhost );
+
+                ghostEaten = true;
 
                 }// if(bonus)
 
@@ -125,16 +153,21 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 
                 mvaddch( y, x, cautionGhost );
 
+                ghostEaten = true;
+
                 }// else if(bonusEnding)
 
              else
                 {
 
-             mvaddch( y, x, icon );
+                mvaddch( y, x, icon );
+
+                ghostEaten = false;
 
                 }// else of if(bonus)
 
 		 	 //attroff(COLOR_PAIR(colorswitch));
+
 		 	 }
 	      refresh();
 	     }
@@ -176,24 +209,39 @@ bool Ghost::collisionM(){
 	    }else{
 		chkbonus=false;
 		  };
-	if((mvinch(iy,ix)=='<')||(mvinch(iy,ix)=='>')||(mvinch(iy,ix)=='V')||(mvinch(iy,ix)=='O')||(mvinch(iy,ix)=='^')){
-	  //if(eatmonster==1){
-	   // refresh();
-	    //deletemonster(ind);
-	}
-	  else{
-	    //collisionmp=true;
-	  }
 
-	if ((mvinch(y,x)=='<')||(mvinch(y,x)=='>')||(mvinch(y,x)=='V')||(mvinch(y,x)=='O')||(mvinch(y,x)=='^'))
-	  {
-       // if(eatmonster==1){
-	   // deletemonster(ind);
-	   // refresh();
-	}
-	    else{
-	    // collisionmp=true;
-	  }
+    if(ghostEaten)
+        {
+
+        if((mvinch(iy,ix)=='<')||(mvinch(iy,ix)=='>')||(mvinch(iy,ix)=='V')||(mvinch(iy,ix)=='O')||(mvinch(iy,ix)=='^'))
+            {
+
+            mvaddch( y, x, eyesOfGhosts );
+
+            }// if((mvinch(iy,ix)=='<')||(mvinch(iy,ix)=='>')||(mvinch(iy,ix)=='V')||(mvinch(iy,ix)=='O')||(mvinch(iy,ix)=='^'))
+
+        else
+            {
+
+
+
+            } // else of if((mvinch(iy,ix)=='<')||(mvinch(iy,ix)=='>')||(mvinch(iy,ix)=='V')||(mvinch(iy,ix)=='O')||(mvinch(iy,ix)=='^'))
+
+        if ((mvinch(y,x)=='<')||(mvinch(y,x)=='>')||(mvinch(y,x)=='V')||(mvinch(y,x)=='O')||(mvinch(y,x)=='^'))
+            {
+
+            mvaddch( y, x, eyesOfGhosts );
+
+            }// if ((mvinch(y,x)=='<')||(mvinch(y,x)=='>')||(mvinch(y,x)=='V')||(mvinch(y,x)=='O')||(mvinch(y,x)=='^'))
+
+        else
+            {
+
+            // collisionmp=true;
+
+            }// else of if ((mvinch(y,x)=='<')||(mvinch(y,x)=='>')||(mvinch(y,x)=='V')||(mvinch(y,x)=='O')||(mvinch(y,x)=='^'))
+
+        }// if(ghostEaten)
 
 	// Wall checking
 	 //attron(COLOR_PAIR(4));

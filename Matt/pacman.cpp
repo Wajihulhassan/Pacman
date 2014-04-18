@@ -15,6 +15,10 @@ Pacman::Pacman(int a, int b, char c[][80]):x(a), y(b)
 
     bonusEnding = false;
 
+    ghostEaten = false;
+
+    player = true;
+
     current = 0;
 
     flickerTimer = 0;
@@ -57,12 +61,16 @@ bool Pacman::movep(){
 
             bonusEnding = true;
 
+            bonus = false;
+
             }// if( time(NULL) % 2 == 0 )
 
         else
             {
 
             bonusEnding = false;
+
+            bonus = true;
 
             }// else of if( time(NULL) % 2 == 0 )
 
@@ -300,6 +308,7 @@ bool Pacman::collision(){
             collisionM=true;
         }
      }
+
     // checking collision with food and incrementing score
       if (maze[y][x]=='*'){
 			score++;

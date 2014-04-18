@@ -26,10 +26,10 @@ int main()
     maze->showMaze();
     Pacman* pac = new Pacman(20,20,maze->maze1);
     pac->moveShow(36,13,'O');
-    Ghost* ghost1 = new Ghost(9,36,'R','@' | COLOR_PAIR(2), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), maze->maze1);
-    Ghost* ghost2 = new Ghost(11,35,'U','@' | COLOR_PAIR(4), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), maze->maze1);
-    Ghost* ghost3 = new Ghost(11,36,'U','@' | COLOR_PAIR(9), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), maze->maze1);
-    Ghost* ghost4 = new Ghost(11,37,'U','@' | COLOR_PAIR(1), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), maze->maze1);
+    Ghost* ghost1 = new Ghost(9,36,'R','@' | COLOR_PAIR(2), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), ':' | COLOR_PAIR(6), maze->maze1);
+    Ghost* ghost2 = new Ghost(11,35,'U','@' | COLOR_PAIR(4), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), ':' | COLOR_PAIR(6), maze->maze1);
+    Ghost* ghost3 = new Ghost(11,36,'U','@' | COLOR_PAIR(9), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6),  ':' | COLOR_PAIR(6), maze->maze1);
+    Ghost* ghost4 = new Ghost(11,37,'U','@' | COLOR_PAIR(1), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6),  ':' | COLOR_PAIR(6), maze->maze1);
     while (Playing){
         Playing= pac->movep();
         ghost1->moveG(pac -> bonus, pac -> bonusEnding );

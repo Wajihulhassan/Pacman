@@ -6,7 +6,7 @@
 class Ghost
 {
     public:
-        Ghost(int , int , char, int, int , int, char m[][80]);
+        Ghost(int , int , char, int, int , int, int, char m[][80]);
         ~Ghost();
         void moveG( bool, bool );
         bool collisionM();
@@ -20,6 +20,8 @@ class Ghost
         int y;
         int newGhost;
         int cautionGhost;
+        int eyesOfGhosts;
+        bool ghostEaten;
         bool chkfood;
         bool chkbonus;
         void foodPutter(int , int );
