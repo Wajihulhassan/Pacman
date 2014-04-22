@@ -23,6 +23,10 @@ Pacman::Pacman(int a, int b, char c[][80]):x(a), y(b)
 
     flickerTimer = 0;
 
+    pacX = 0;
+
+    pacY = 0;
+
 }
 void Pacman::moveShow(int a, int b, char c){
 
@@ -34,7 +38,7 @@ void Pacman::moveShow(int a, int b, char c){
     score =0;
     repeater =0;
 }
-bool Pacman::movep(){
+bool Pacman::movep( bool playing ){
      // initialization of character
     wtimeout(stdscr,170);
     move(1,31);
@@ -88,6 +92,7 @@ bool Pacman::movep(){
 	    		if(!collision()){
 	      			mvaddch(y,x,' ');
 	      			++x;
+	      			pacX = x;
 	      			move(y,x);
 		  		if (repeater%2==0){
 		  			addch('<' | COLOR_PAIR(1));
@@ -104,6 +109,7 @@ bool Pacman::movep(){
 				if(!collision()){
 		    		mvaddch(y,x,' ');
 		    		--x;
+		    		pacX = x;
 		    		move(y,x);
 		    	if (repeater%2==0){
 		    		addch('>' | COLOR_PAIR(1));
@@ -120,6 +126,7 @@ bool Pacman::movep(){
 				if(!collision()){
 		    		mvaddch(y,x,' ');
 		    		--y;
+		    		pacY = y;
 		    		move(y,x);
 		  		if (repeater%2==0){
 		      		addch('V' | COLOR_PAIR(1));
@@ -136,6 +143,7 @@ bool Pacman::movep(){
 	       if(!collision()){
 		  		mvaddch(y,x,' ');
 		  		++y;
+		  		pacY = y;
 		  		move(y,x);
 		  if (repeater%2==0){
 				addch('^' | COLOR_PAIR(1));
@@ -166,6 +174,7 @@ bool Pacman::movep(){
 	     if(!collision()){
 		    		mvaddch(y,x,' ');
 		    		--x;
+		    		pacX = x;
 		    		move(y,x);
 		    	if (repeater%2==0){
 		    		addch('>');
@@ -187,6 +196,7 @@ bool Pacman::movep(){
 	      if(!collision()){
 	      			mvaddch(y,x,' ');
 	      			++x;
+	      			pacX = x;
 	      			move(y,x);
 		  		if (repeater%2==0){
 		  			addch('<');
@@ -207,6 +217,7 @@ bool Pacman::movep(){
             if(!collision()){
 		    		mvaddch(y,x,' ');
 		    		--y;
+		    		pacY = y;
 		    		move(y,x);
 		  		if (repeater%2==0){
 		      		addch('V');
@@ -227,6 +238,7 @@ bool Pacman::movep(){
 	      if(!collision()){
 		  		mvaddch(y,x,' ');
 		  		++y;
+		  		pacY = y;
 		  		move(y,x);
 		  if (repeater%2==0){
 				addch('^');
@@ -251,16 +263,40 @@ bool Pacman::collision(){
 	int yy;
 	if(dir=='r'){
 	  xx=x+1;
-	  yy=y;}
+	  yy=y;
+
+	  pacX = x;
+
+	  pacY = y;
+
+	  }
 	if(dir=='l'){
 	  xx=x-1;
-	  yy=y;}
+	  yy=y;
+
+	  pacX = x;
+
+	  pacY = y;
+
+	  }
 	if (dir=='d'){
 	  yy=y+1;
-	  xx=x;}
+	  xx=x;
+
+	  pacX = x;
+
+	  pacY = y;
+
+	  }
 	if(dir=='u'){
 	  yy=y-1;
-	  xx=x;}
+	  xx=x;
+
+	  pacX = x;
+
+	  pacY = y;
+
+	  }
 	  // collision with walls
 	if (dir!='n'){
 	    if (maze[yy][xx]=='#'){
@@ -312,11 +348,13 @@ bool Pacman::collision(){
     // checking collision with food and incrementing score
       if (maze[y][x]=='*'){
 			score++;
+
+            maze[y][x] = ' ';
+
 	    if (score==466){
 	    	  //winner=true;
 	      	return false;
 	    }
-		maze[y][x]=' ';
 		return false;
 		}
 

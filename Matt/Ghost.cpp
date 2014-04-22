@@ -17,14 +17,26 @@ Ghost::Ghost(int a, int b, char c, int d, int blueGhost, int whiteGhost,int ghos
 
     ghostEaten = false;
 
+    playing = true;
+
+    checkY = 0;
+
+    checkX = 0;
+
     chkfood= false;
+
+    spaceChecker = false;
+
 }
-void Ghost::moveG(bool bonus, bool bonusEnding ){
+void Ghost::moveG(bool bonus, bool bonusEnding, int pacX, int pacY ){
     if (dir=='R'){
 	    if(!collisionM()){
-	      	mvaddch(y,x,' ');
-	     	foodPutter(y,x);
-	      	++x;
+
+                mvaddch( y, x, ' ' );
+
+                foodPutter(y,x);
+
+                ++x;
 
              // The if, else if, and else determine the color of the ghosts.
 		 	 if(bonus)
@@ -54,15 +66,22 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 
                 }// else of if(bonus)
 
+        checkY = pacY;
+
+        checkX = pacX;
+
 		}
 	  refresh();
 	  }
 	else if(dir=='L')
 	 	{
 		if(!collisionM()){
-			mvaddch(y,x,' ');
-			foodPutter(y,x);
-			--x;
+
+            mvaddch( y, x, ' ' );
+
+            foodPutter(y,x);
+
+            --x;
 
 		 	 if(bonus)
                 {
@@ -91,15 +110,22 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 
                 }// else of if(bonus)
 
+        checkY = pacY;
+
+        checkX = pacX;
+
 		}
 		refresh();
 	 }
 	else if(dir == 'U')
 	    {
 		if(!collisionM()){
-		  	mvaddch(y,x,' ');
+
+            mvaddch( y, x, ' ' );
+
             foodPutter(y,x);
-		  	--y;
+
+		  	 --y;
 
 		 	 if(bonus)
                 {
@@ -128,14 +154,21 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 
                 }// else of if(bonus)
 
+            checkY = pacY;
+
+            checkX = pacX;
+
 		    }
 	      refresh();
 	    }
 	  else if (dir =='D')
 	     {
 	       if(!collisionM()){
-		  	mvaddch(y,x,' ');
+
+            mvaddch( y, x, ' ' );
+
             foodPutter(y,x);
+
 		 	 ++y;
 		 	 //attron(COLOR_PAIR(colorswitch));
 
@@ -168,6 +201,11 @@ void Ghost::moveG(bool bonus, bool bonusEnding ){
 
 		 	 //attroff(COLOR_PAIR(colorswitch));
 
+
+             checkY = pacY;
+
+             checkX = pacX;
+
 		 	 }
 	      refresh();
 	     }
@@ -199,49 +237,57 @@ bool Ghost::collisionM(){
         iy=y-1;
         ix=x;
     }
+
+    if((mvinch(iy,ix)== '<' | COLOR_PAIR(1) ) ||(mvinch(iy,ix)== '>' | COLOR_PAIR(1) ) ||(mvinch(iy,ix)== 'V' | COLOR_PAIR(1) ) ||(mvinch(iy,ix)== 'O' | COLOR_PAIR(1) ) ||(mvinch(iy,ix)=='^' | COLOR_PAIR(1) ) )
+        {
+
+        if(!ghostEaten)
+            {
+
+            playing = false;
+
+            //mvaddch( y, x, eyesOfGhosts );
+
+            }// if(ghostEaten)
+
+        //else
+        //{
+
+        //playing = false;
+
+        //}// else of if (!ghostEaten)
+
+
+        }// if((mvinch(iy,ix)== mvinch( checkY, checkX )))
+
 	if(maze[y][x]=='*'){
         chkfood=true;
 	    }else{
 		chkfood=false;
         };
+
 	if(maze[y][x]=='%'){
         chkbonus=true;
 	    }else{
 		chkbonus=false;
 		  };
 
-    if(ghostEaten)
+    //This statement checks if there is an empty space.
+    if( chkfood != true && chkbonus != true )
         {
 
-        if((mvinch(iy,ix)=='<')||(mvinch(iy,ix)=='>')||(mvinch(iy,ix)=='V')||(mvinch(iy,ix)=='O')||(mvinch(iy,ix)=='^'))
-            {
+        spaceChecker = true;
 
-            mvaddch( y, x, eyesOfGhosts );
-
-            }// if((mvinch(iy,ix)=='<')||(mvinch(iy,ix)=='>')||(mvinch(iy,ix)=='V')||(mvinch(iy,ix)=='O')||(mvinch(iy,ix)=='^'))
-
-        else
-            {
+        }// if( chkfood != true && chkbonus != true )
 
 
+    else
+        {
 
-            } // else of if((mvinch(iy,ix)=='<')||(mvinch(iy,ix)=='>')||(mvinch(iy,ix)=='V')||(mvinch(iy,ix)=='O')||(mvinch(iy,ix)=='^'))
+        spaceChecker = false;
 
-        if ((mvinch(y,x)=='<')||(mvinch(y,x)=='>')||(mvinch(y,x)=='V')||(mvinch(y,x)=='O')||(mvinch(y,x)=='^'))
-            {
+        }// else of if( chkfood != true && chkbonus != true )
 
-            mvaddch( y, x, eyesOfGhosts );
-
-            }// if ((mvinch(y,x)=='<')||(mvinch(y,x)=='>')||(mvinch(y,x)=='V')||(mvinch(y,x)=='O')||(mvinch(y,x)=='^'))
-
-        else
-            {
-
-            // collisionmp=true;
-
-            }// else of if ((mvinch(y,x)=='<')||(mvinch(y,x)=='>')||(mvinch(y,x)=='V')||(mvinch(y,x)=='O')||(mvinch(y,x)=='^'))
-
-        }// if(ghostEaten)
 
 	// Wall checking
 	 //attron(COLOR_PAIR(4));
@@ -263,12 +309,21 @@ void Ghost::foodPutter(int j,int k){
         attron(COLOR_PAIR(1));
         mvaddch(j,k,'*');
         attroff(COLOR_PAIR(1));
+
     }
     if(chkbonus){
         attron(COLOR_PAIR(8)|A_STANDOUT);
         mvaddch(j,k,'%');
         attroff(COLOR_PAIR(8)|A_STANDOUT);
+
     }
+    // This makes sure that the space is not overwritten
+    if( spaceChecker == true )
+        {
+
+        mvaddch( j, k, ' ' );
+
+        }// if( spaceChecker )
 
   }
 Ghost::~Ghost()

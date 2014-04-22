@@ -10,7 +10,7 @@ class Pacman :public Character
         Pacman(int , int,char c[][80]);
         ~Pacman();
         void moveShow(int, int , char);
-        bool movep();
+        bool movep( bool );
         char dir ;
         bool collision();
         bool collisionM;
@@ -21,6 +21,10 @@ class Pacman :public Character
         bool alive;
         bool bonus;
         bool bonusEnding;
+        bool ghostEaten;
+        bool player;
+        int pacX;
+        int pacY;
         int x;
         int y;
         time_t current, timer, flickerTimer;
