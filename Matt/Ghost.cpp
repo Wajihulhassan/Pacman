@@ -28,9 +28,9 @@ Ghost::Ghost(int a, int b, char c, int d, int blueGhost, int whiteGhost,int ghos
     spaceChecker = false;
 
 }
-void Ghost::moveG(bool bonus, bool bonusEnding, int pacX, int pacY ){
+void Ghost::moveG(bool bonus, bool bonusEnding, int pacY, int pacX ){
     if (dir=='R'){
-	    if(!collisionM()){
+	    if(!collisionM( pacX, pacY )){
 
                 mvaddch( y, x, ' ' );
 
@@ -66,16 +66,16 @@ void Ghost::moveG(bool bonus, bool bonusEnding, int pacX, int pacY ){
 
                 }// else of if(bonus)
 
-        checkY = pacY;
+        checkY = pacX;
 
-        checkX = pacX;
+        checkX = pacY;
 
 		}
 	  refresh();
 	  }
 	else if(dir=='L')
 	 	{
-		if(!collisionM()){
+		if(!collisionM( pacX, pacY )){
 
             mvaddch( y, x, ' ' );
 
@@ -110,16 +110,16 @@ void Ghost::moveG(bool bonus, bool bonusEnding, int pacX, int pacY ){
 
                 }// else of if(bonus)
 
-        checkY = pacY;
+        checkY = pacX;
 
-        checkX = pacX;
+        checkX = pacY;
 
 		}
 		refresh();
 	 }
 	else if(dir == 'U')
 	    {
-		if(!collisionM()){
+		if(!collisionM( pacX, pacY )){
 
             mvaddch( y, x, ' ' );
 
@@ -154,16 +154,16 @@ void Ghost::moveG(bool bonus, bool bonusEnding, int pacX, int pacY ){
 
                 }// else of if(bonus)
 
-            checkY = pacY;
+            checkY = pacX;
 
-            checkX = pacX;
+            checkX = pacY;
 
 		    }
 	      refresh();
 	    }
 	  else if (dir =='D')
 	     {
-	       if(!collisionM()){
+	       if(!collisionM( pacX, pacY )){
 
             mvaddch( y, x, ' ' );
 
@@ -202,9 +202,9 @@ void Ghost::moveG(bool bonus, bool bonusEnding, int pacX, int pacY ){
 		 	 //attroff(COLOR_PAIR(colorswitch));
 
 
-             checkY = pacY;
+             checkY = pacX;
 
-             checkX = pacX;
+             checkX = pacY;
 
 		 	 }
 	      refresh();
@@ -215,7 +215,7 @@ void Ghost::moveG(bool bonus, bool bonusEnding, int pacX, int pacY ){
 	    }
 
 }
-bool Ghost::collisionM(){
+bool Ghost::collisionM( int pacX, int pacY ){
     //if it collides with wall move randomly to other direction and do it again and again
     int ix;
     int iy;
@@ -224,21 +224,43 @@ bool Ghost::collisionM(){
 	if(dir=='R'){
         ix=x+1;
         iy=y;
+
+        checkY = pacX;
+
+        checkX = pacY;
+
 	}
 	if (dir == 'L'){
         ix=x-1;
         iy=y;
+
+        checkY = pacX;
+
+        checkX = pacY;
+
     }
 	if (dir=='D'){
         iy=y+1;
         ix=x;
+
+        checkY = pacX;
+
+        checkX = pacY;
+
     }
 	if (dir=='U'){
         iy=y-1;
         ix=x;
+
+        checkY = pacX;
+
+        checkX = pacY;
+
     }
 
-    if((mvinch(iy,ix)== '<' | COLOR_PAIR(1) ) ||(mvinch(iy,ix)== '>' | COLOR_PAIR(1) ) ||(mvinch(iy,ix)== 'V' | COLOR_PAIR(1) ) ||(mvinch(iy,ix)== 'O' | COLOR_PAIR(1) ) ||(mvinch(iy,ix)=='^' | COLOR_PAIR(1) ) )
+    // This if statement checks if the ghosts kill pacman.
+
+    if(( iy == checkX && ix == checkY ))
         {
 
         if(!ghostEaten)
@@ -249,14 +271,6 @@ bool Ghost::collisionM(){
             //mvaddch( y, x, eyesOfGhosts );
 
             }// if(ghostEaten)
-
-        //else
-        //{
-
-        //playing = false;
-
-        //}// else of if (!ghostEaten)
-
 
         }// if((mvinch(iy,ix)== mvinch( checkY, checkX )))
 

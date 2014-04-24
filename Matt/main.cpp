@@ -17,7 +17,9 @@ void ColorChanger();
 void breakTime(int seconds);
 bool IsBigBlockOnBigHole(BigBlock TheBlock, BigBlockHole TheHole);
 void Restart(int X, int Y, MainWindow& GameMap);
+// holds the function to play sokoban.
 void sokobanFunction();
+// holds the function to play pacman.
 void pacManFunction();
 void splashscreen();
 void initialization();
@@ -100,18 +102,44 @@ void pacManFunction()
     maze->showMaze();
     Pacman* pac = new Pacman(20,20,maze->maze1);
     pac->moveShow(36,13,'O');
-    Ghost* ghost;
     Ghost* ghost1 = new Ghost(9,36,'R','@' | COLOR_PAIR(2), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), ':' | COLOR_PAIR(6), maze->maze1);
     Ghost* ghost2 = new Ghost(11,35,'U','@' | COLOR_PAIR(4), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6), ':' | COLOR_PAIR(6), maze->maze1);
     Ghost* ghost3 = new Ghost(11,36,'U','@' | COLOR_PAIR(9), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6),  ':' | COLOR_PAIR(6), maze->maze1);
     Ghost* ghost4 = new Ghost(11,37,'U','@' | COLOR_PAIR(1), '@' | COLOR_PAIR(3), '@' | COLOR_PAIR(6),  ':' | COLOR_PAIR(6), maze->maze1);
     while (Playing){
-        Playing= pac->movep( ghost -> playing );
+        Playing = pac->movep();
         ghost1->moveG(pac -> bonus, pac -> bonusEnding, pac -> pacY, pac -> pacX );
         ghost2->moveG(pac -> bonus, pac -> bonusEnding, pac -> pacY, pac -> pacX );
         ghost3->moveG(pac -> bonus, pac -> bonusEnding, pac -> pacY, pac -> pacX );
         ghost4->moveG(pac -> bonus, pac -> bonusEnding, pac -> pacY, pac -> pacX );
+
+        if(!(ghost1 -> playing && ghost2 -> playing && ghost3 -> playing && ghost4 -> playing))
+        {
+            Playing = false;
+        }
+
+        if( pac -> score >= 400 )
+            {
+
+            Playing = false;
+
+            }//if( pac -> score >= 466 )
+
     }
+
+    if( pac -> score >= 400 )
+        {
+
+        gameOverWin();
+
+        }// if( pac -> score )
+
+    else
+        {
+
+        gameOverLose();
+
+        }// else of if( pac -> score == 466 )
 
     }// void pacManFunction()
 

@@ -17,8 +17,6 @@ Pacman::Pacman(int a, int b, char c[][80]):x(a), y(b)
 
     ghostEaten = false;
 
-    player = true;
-
     current = 0;
 
     flickerTimer = 0;
@@ -38,10 +36,12 @@ void Pacman::moveShow(int a, int b, char c){
     score =0;
     repeater =0;
 }
-bool Pacman::movep( bool playing ){
+bool Pacman::movep(){
      // initialization of character
     wtimeout(stdscr,170);
     move(1,31);
+
+    // This checks if the ghosts change back to normal.
 
     if( time(NULL) >= timer )
         {
@@ -55,6 +55,9 @@ bool Pacman::movep( bool playing ){
         flickerTimer = 0;
 
         }// if( time(NULL) >= timer )
+
+    // This if statement makes the ghosts flicker color to indicate that they will
+    // change back soon.
 
     if( flickerTimer != 0 && time(NULL) >= flickerTimer )
         {
@@ -75,6 +78,8 @@ bool Pacman::movep( bool playing ){
             bonusEnding = false;
 
             bonus = true;
+
+            ghostEaten = false;
 
             }// else of if( time(NULL) % 2 == 0 )
 
@@ -351,9 +356,12 @@ bool Pacman::collision(){
 
             maze[y][x] = ' ';
 
-	    if (score==466){
-	    	  //winner=true;
-	      	return false;
+        //checks if your score is high enough for a win.
+
+	    if (score>=400){
+
+            ghostEaten = false;
+
 	    }
 		return false;
 		}

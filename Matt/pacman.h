@@ -10,7 +10,7 @@ class Pacman :public Character
         Pacman(int , int,char c[][80]);
         ~Pacman();
         void moveShow(int, int , char);
-        bool movep( bool );
+        bool movep();
         char dir ;
         bool collision();
         bool collisionM;

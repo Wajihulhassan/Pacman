@@ -1,0 +1,10 @@
+PacMan:
+
+Don't let the name fool you this isn't your normal PacMan.
+In this version ghosts have no pattern of movement to follow
+so don't bother trying to figure out where they are going next.
+Second, you can't get rid of the ghosts even if you eat a 
+power pellet instead all that does is make you invisible to
+the ghosts. Third the ghosts also reprint the food so now 
+you have to try and remember what you've already eaten.
+Last, you have only one life so good luck you'll need it.
